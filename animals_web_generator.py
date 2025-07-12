@@ -30,14 +30,16 @@ def collect_animal_data(animal_data:list):
 
     output = ""
     for data in animal_data:
+        output += '<li class="cards__item">'
         if "name" in data:
-            output+= f"Name: {data["name"]}\n"
+            output+= f"Name: {data["name"]}<br/>\n"
         if "diet" in data["characteristics"]:
-            output+=f"Diet: {data["characteristics"]["diet"]}\n"
+            output+=f"Diet: {data["characteristics"]["diet"]}<br/>\n"
         if "locations" in data:
-            output+=f"Location: {data["locations"][0]}\n"
+            output+=f"Location: {data["locations"][0]}<br/>\n"
         if "type" in data["characteristics"]:
-            output+=f"Type: {data["characteristics"]["type"]}\n"
+            output+=f"Type: {data["characteristics"]["type"]}<br/>\n"
+        output += '</li>'
     return output
 
 
