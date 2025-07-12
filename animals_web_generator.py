@@ -1,10 +1,11 @@
 import json
 
-def load_data(file_path):
-  """ Loads a JSON file"""
 
-  with open(file_path, "r", encoding='utf-8') as handle:
-    return json.load(handle)
+def load_data(file_path):
+    """ Loads a JSON file"""
+
+    with open(file_path, "r", encoding='utf-8') as handle:
+        return json.load(handle)
 
 
 def load_html(file_path):
@@ -21,7 +22,7 @@ def save_html(file_path, content):
         return handle.write(content)
 
 
-def get_skin_types(animals_data:list)->list:
+def get_skin_types(animals_data: list) -> list:
     """
     Gather all skin types from json file
     :param animals_data:
@@ -35,7 +36,7 @@ def get_skin_types(animals_data:list)->list:
     return list(set(skin_types))
 
 
-def collect_animal_data(data:dict)->str:
+def collect_animal_data(data: dict) -> str:
     """
     Reads the content of  a single animals, collects its data
     :return: a string for an HTML card with the gathered information
@@ -44,21 +45,27 @@ def collect_animal_data(data:dict)->str:
     output = ""
     output += '<li class="cards__item">'
     if "name" in data:
-        output+= '<div class="card__title">' + f'{data["name"]}</div>\n'
+        output += '<div class="card__title">' + f'{data["name"]}</div>\n'
     if "scientific_name" in data["taxonomy"]:
-        output+= f'<dic class="card_subtitle"><i> {data["taxonomy"]["scientific_name"]}</i></div>\n'
+        output += (f'<dic class="card_subtitle"><i> '
+                   f'{data["taxonomy"]["scientific_name"]}</i></div>\n')
     output += '<p class ="card__text">'
     output += '<ul>'
     if "diet" in data["characteristics"]:
-        output+= '<li><strong>Diet:</strong>' + f' {data["characteristics"]["diet"]}</li>\n'
+        output += ('<li><strong>Diet:</strong>' +
+                   f' {data["characteristics"]["diet"]}</li>\n')
     if "locations" in data:
-        output+= '<li><strong>Location:</strong>' + f' {data["locations"][0]}</li>\n'
+        output += ('<li><strong>Location:</strong>' +
+                   f' {data["locations"][0]}</li>\n')
     if "type" in data["characteristics"]:
-        output+= '<li><strong>Type:</strong>' + f' {data["characteristics"]["type"]}</li>\n'
+        output += ('<li><strong>Type:</strong>' +
+                   f' {data["characteristics"]["type"]}</li>\n')
     output += '</ul>'
     output += '</p>'
     if "slogan" in data["characteristics"]:
-        output += f'<div class="slogan"> <cite>{data["characteristics"]["slogan"]}</cite></div>\n'
+        output += (f'<div class="slogan">'
+                   f'<cite>{data["characteristics"]["slogan"]}'
+                   f'</cite></div>\n')
     output += '</li>'
     return output
 
@@ -83,7 +90,6 @@ def main():
             break
         else:
             print("Please enter a valid skin type!")
-
 
     output = ""
     for data in animals_data:
