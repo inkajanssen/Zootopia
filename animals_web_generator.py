@@ -21,39 +21,47 @@ def save_html(file_path, content):
         return handle.write(content)
 
 
-def collect_animal_data(animal_data:list):
+def collect_animal_data(data:dict):
     """
-    Reads the content of animals_data.json, iterates through the animals,
-    print data
-    :return: Name, Diet, The first location from the locations list,Type
+    Reads the content of  a single animals, collects its data
+    :return: an HTML card with the gathered information
     """
 
     output = ""
-    for data in animal_data:
-        output += '<li class="cards__item">'
-        if "name" in data:
-            output+= '<div class="card__title">' + f'{data["name"]}</div>\n'
-        output += '<p class ="card__text">'
-        if "diet" in data["characteristics"]:
-            output+= '<strong>Diet:</strong>' + f' {data["characteristics"]["diet"]}<br/>\n'
-        if "locations" in data:
-            output+= '<strong>Location:</strong>' + f' {data["locations"][0]}<br/>\n'
-        if "type" in data["characteristics"]:
-            output+= '<strong>Type:</strong>' + f' {data["characteristics"]["type"]}<br/>\n'
-        output += '</p>'
-        output += '</li>'
+    output += '<li class="cards__item">'
+    if "name" in data:
+        output+= '<div class="card__title">' + f'{data["name"]}</div>\n'
+    if "scientific_name" in data["taxonomy"]:
+        output+= f'<small><i> {data["taxonomy"]["scientific_name"]}</i></small><br/>\n'
+    output += '<p class ="card__text">'
+    if "diet" in data["characteristics"]:
+        output+= '<strong>Diet:</strong>' + f' {data["characteristics"]["diet"]}<br/>\n'
+    if "locations" in data:
+        output+= '<strong>Location:</strong>' + f' {data["locations"][0]}<br/>\n'
+    if "type" in data["characteristics"]:
+        output+= '<strong>Type:</strong>' + f' {data["characteristics"]["type"]}<br/>\n'
+    if "slogan" in data["characteristics"]:
+        output += '<br>'
+        output += f'<cite>{data["characteristics"]["slogan"]}</cite><br/>\n'
+    output += '</p>'
+    output += '</li>'
     return output
 
 
 def main():
     """
     Read the content of the json file and the html template
-    Gather some data about the animals
+    Gather data about the animals
     Create a new html file
     """
+
     animals_data = load_data('animals_data.json')
     html_content = load_html("animals_template.html")
-    output = collect_animal_data(animals_data)
+
+    output = ""
+    for data in animals_data:
+        output += collect_animal_data(data)
+
     replace_info = html_content.replace("__REPLACE_ANIMALS_INFO__", output)
     save_html("animals.html", replace_info)
 
